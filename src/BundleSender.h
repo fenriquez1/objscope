@@ -2,13 +2,13 @@
  * BundleSender.h
  *
  *  Created on: Oct 5, 2017
- *      Author: j35333
+ *      Author: Francisco Enriquez
  */
 
 #ifndef BUNDLESENDER_H_
 #define BUNDLESENDER_H_
 
-#include <pthread.h>
+#include <thread>
 #include <queue>
 #include <iostream>
 #include <unistd.h>
@@ -24,9 +24,12 @@ public:
 
 	bool sendBundle(BundleObject bundle);
 
-	pthread_t sendBundlesThread;
-	pthread_mutex_t sendMutex;
+	std::thread sendBundlesThread;
+	std::mutex sendMutex;
 	std::queue<BundleObject> sendQ;
+
+private:
+	void startBundleSender();
 };
 
 #endif /* BUNDLESENDER_H_ */

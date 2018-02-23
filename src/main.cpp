@@ -2,7 +2,7 @@
  * main.cpp
  *
  *  Created on: Oct 5, 2017
- *      Author: j35333
+ *      Author: Francisco Enriquez
  */
 
 #include <iostream>
@@ -28,19 +28,19 @@ int main(int argc, char*argv[]) {
 	}
 
 	while (i < 20) {
-		pthread_mutex_lock(&receiver.recvMutex);
+		receiver.recvMutex.lock();
 		if (!receiver.recvQ.empty()) {
 			BundleObject & tBundleObject = receiver.recvQ.front();
 			receiver.recvQ.pop();
 			std::cout << "Processed Bundle: " << tBundleObject.mPayload << std::endl;
 			i++;
 		}
-		pthread_mutex_unlock(&receiver.recvMutex);
+		receiver.recvMutex.unlock();
 		usleep(7500);
 	}
 
-	pthread_join(sender.sendBundlesThread, NULL);
-	pthread_join(receiver.recvBundlesThread, NULL);
+	sender.sendBundlesThread.join();
+	receiver.recvBundlesThread.join();
 
 	return 0;
 }

@@ -2,42 +2,32 @@
  * BundleSender.cpp
  *
  *  Created on: Oct 5, 2017
- *      Author: j35333
+ *      Author: Francisco Enriquez
  */
 
 #include "BundleSender.h"
 
-//pthread_mutex_t sendMutex = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t *sSendMutexPtr;
+void BundleSender::startBundleSender() {
 
-static void *startBundleSender(void *value) {
-	std::queue<BundleObject> *outQ = (std::queue<BundleObject>*) value;
 	int i = 0;
 
 	while(i < 10) {
-		pthread_mutex_lock(sSendMutexPtr);
-		if (!outQ->empty()) {
-			BundleObject & tBundleObject = outQ->front();
-			outQ->pop();
+		sendMutex.lock();
+		if (!sendQ.empty()) {
+			BundleObject & tBundleObject = sendQ.front();
+			sendQ.pop();
 			std::cout << "Sent Bundle: " << tBundleObject.mPayload << std::endl;
 			i++;
 		}
-		pthread_mutex_unlock(sSendMutexPtr);
+		sendMutex.unlock();
 
 		usleep(5000);
 
 	}
-
-	return NULL;
 }
 
 BundleSender::BundleSender() {
-	sendMutex = PTHREAD_MUTEX_INITIALIZER;
-	sSendMutexPtr = &sendMutex;
-	if (pthread_create(&sendBundlesThread, NULL, startBundleSender,
-			(void *) &this->sendQ) < 0) {
-		exit(1);
-	}
+	sendBundlesThread = std::thread(&BundleSender::startBundleSender, this);
 }
 
 BundleSender::~BundleSender() {
@@ -45,9 +35,9 @@ BundleSender::~BundleSender() {
 }
 
 bool BundleSender::sendBundle(BundleObject bundle) {
-	pthread_mutex_lock(&sendMutex);
-	this->sendQ.push(bundle);
-	pthread_mutex_unlock(&sendMutex);
+	sendMutex.lock();
+	sendQ.push(bundle);
+	sendMutex.unlock();
 	return true;
 }
 
