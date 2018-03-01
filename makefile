@@ -1,58 +1,32 @@
-################################################################################
-# Automatically-generated file. Do not edit!
-################################################################################
+CPP = clang++
 
--include ../makefile.init
+CFLAGS = -std=c++11 -O3 -g3 -Wall -c -fmessage-length=0
 
-RM := rm -rf
+LFLAGS =
 
-# All of the sources participating in the build are defined here
--include sources.mk
--include src/subdir.mk
--include subdir.mk
--include objects.mk
+RM = rm -rf
 
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(strip $(CC_DEPS)),)
--include $(CC_DEPS)
-endif
-ifneq ($(strip $(C++_DEPS)),)
--include $(C++_DEPS)
-endif
-ifneq ($(strip $(C_UPPER_DEPS)),)
--include $(C_UPPER_DEPS)
-endif
-ifneq ($(strip $(CXX_DEPS)),)
--include $(CXX_DEPS)
-endif
-ifneq ($(strip $(CPP_DEPS)),)
--include $(CPP_DEPS)
-endif
-ifneq ($(strip $(C_DEPS)),)
--include $(C_DEPS)
-endif
-endif
+CPP_SRCS += \
+src/BundleObject.cpp \
+src/BundleReceiver.cpp \
+src/BundleSender.cpp \
+src/main.cpp
 
--include ../makefile.defs
+OBJS += \
+./BundleObject.o \
+./BundleReceiver.o \
+./BundleSender.o \
+./main.o
 
-# Add inputs and outputs from these tool invocations to the build variables 
-
-# All Target
 all: ObjectScope
 
-# Tool invocations
-ObjectScope: $(OBJS) $(USER_OBJS)
-	@echo 'Building target: $@'
-	@echo 'Invoking: MacOS X C++ Linker'
-	g++ -v -o "ObjectScope" $(OBJS) $(USER_OBJS) $(LIBS)
-	@echo 'Finished building target: $@'
-	@echo ' '
+ObjectScope: $(OBJS)
+	$(CPP) $(LFLAGS) -o $@ $(OBJS)
 
-# Other Targets
+$(OBJS): $(CPP_SRCS)
+	$(CPP) $(CFLAGS) -MT"$(@)" $(CPP_SRCS)
+
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(CPP_DEPS)$(C_DEPS) ObjectScope
-	-@echo ' '
+	-$(RM) $(OBJS) ObjectScope
 
 .PHONY: all clean dependents
-
--include ../makefile.targets
