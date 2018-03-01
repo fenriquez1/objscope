@@ -13,7 +13,7 @@
 
 class BundleObject {
 public:
-	BundleObject(std::string pStr);
+	explicit BundleObject(std::string pStr);
 	virtual ~BundleObject();
 
 	std::string mPayload;

@@ -10,8 +10,7 @@
 static int positiveCounter = 0;
 static int negativeCounter = 0;
 
-BundleObject::BundleObject(std::string pStr) {
-	mPayload = pStr;
+BundleObject::BundleObject(std::string pStr):mPayload(pStr) {
 	positiveCounter++;
 	std::cout << "BundleObject = " << positiveCounter << std::endl;
 

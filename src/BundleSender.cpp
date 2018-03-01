@@ -11,6 +11,9 @@ void BundleSender::startBundleSender() {
 
 	int i = 0;
 
+	timespec ts;
+	ts.tv_nsec = 50000000;
+	ts.tv_sec = 0;
 	while(i < 10) {
 		sendMutex.lock();
 		if (!sendQ.empty()) {
@@ -21,7 +24,7 @@ void BundleSender::startBundleSender() {
 		}
 		sendMutex.unlock();
 
-		usleep(5000);
+		nanosleep(&ts, nullptr);
 
 	}
 }

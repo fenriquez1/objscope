@@ -11,11 +11,10 @@
 #include <queue>
 #include <thread>
 #include <iostream>
+#include <time.h>
 #include <unistd.h>
 
 #include "BundleObject.h"
-
-class BundleObject;
 
 class BundleReceiver {
 public:

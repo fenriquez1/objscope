@@ -12,6 +12,9 @@ void BundleReceiver::startBundleReceiver() {
 	std::string tBundle = std::string("Bundle");
 	int i = 10;
 
+	timespec ts;
+	ts.tv_nsec = 750000000;
+	ts.tv_sec = 0;
 	while(i++ < 20) {
 		tBundle.clear();
 		tBundle.append("Bundle");
@@ -22,7 +25,7 @@ void BundleReceiver::startBundleReceiver() {
 		this->recvMutex.unlock();
 
 		std::cout << "Received Bundle: " << tBundle << std::endl;
-		usleep(75000);
+		nanosleep(&ts, nullptr);
 	}
 }
 
