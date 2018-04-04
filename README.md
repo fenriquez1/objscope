@@ -6,4 +6,4 @@ Personal repo to test object scoping in c++
        src="https://scan.coverity.com/projects/15139/badge.svg"/>
 </a>
 
-<a href="https://sonarcloud.io/api/project_badges/measure?project=objscope&metric=alert_status></a>
+https://sonarcloud.io/api/project_badges/measure?project=objscope&metric=alert_status
